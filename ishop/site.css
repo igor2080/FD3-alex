@@ -1,0 +1,25 @@
+.StoreComponentMain .itemMainDiv {
+    margin:0 1%;
+    background-color: cadetblue;
+    display: inline-block;
+}
+
+.StoreComponentMain>h1 {
+    background-color: gray;
+    display: inline-block;
+}
+
+.StoreComponentMain .itemSpan {
+    padding: 0 1em;
+}
+
+.StoreComponentMain .itemImageContainer{
+    margin: 0 auto;
+    width: 50%;
+
+}
+.StoreComponentMain .itemImage {
+    width: 200px;
+    height: 200px;
+    
+}
