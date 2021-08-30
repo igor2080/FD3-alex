@@ -6,7 +6,8 @@ var FilterComponent = React.createClass({
     getInitialState: function () {
         return {
             isCheckboxChecked: false,
-            localStringArray: this.props.stringArray
+            localStringArray: [...this.props.stringArray],
+            localStringArraySorted: [...this.props.stringArray.sort()],
         };
     },
 
@@ -17,9 +18,10 @@ var FilterComponent = React.createClass({
     },
 
     textChanged: function (element) {
-        var word = element.target.value;
+        var userInput = element.target.value;
         this.setState((curState, props) => {
-            curState.localStringArray = this.props.stringArray.filter(x => x.includes(word));
+            curState.localStringArray = this.props.stringArray.filter(x => x.includes(userInput));
+            curState.localStringArraySorted = this.props.stringArray.filter(x => x.includes(userInput)).sort();
         });
     },
 
@@ -35,10 +37,10 @@ var FilterComponent = React.createClass({
 
     render: function () {
         var optionsArray = [];
-        var wordArray = [...this.state.localStringArray];
+        var wordArray = [];
 
         if (this.state.isCheckboxChecked) {
-            wordArray = wordArray.sort();
+            wordArray = this.state.localStringArraySorted;
         }
         else {
             wordArray = this.state.localStringArray;
