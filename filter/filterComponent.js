@@ -23,6 +23,16 @@ var FilterComponent = React.createClass({
         });
     },
 
+    resetFilters: function () {
+        this.setState((curState, props) => {
+            curState.localStringArray = this.props.stringArray;
+            curState.isCheckboxChecked = false;
+        });
+
+        document.querySelector('.sortCheckbox').checked = false;
+        document.querySelector('.filterTextbox').value = "";
+    },
+
     render: function () {
         var optionsArray = [];
         var wordArray = [...this.state.localStringArray];
@@ -40,8 +50,9 @@ var FilterComponent = React.createClass({
 
         return React.DOM.div({ className: 'filterComponentMain' },
             React.DOM.div({},
-                React.DOM.input({ type: 'checkbox', onClick: this.checkboxClicked }, null),
-                React.DOM.input({ type: 'text', onChange: this.textChanged })),
+                React.DOM.input({ className: 'sortCheckbox', type: 'checkbox', onClick: this.checkboxClicked }, null),
+                React.DOM.input({ className: 'filterTextbox', type: 'text', onChange: this.textChanged }),
+                React.DOM.input({ type: 'button', onClick: this.resetFilters, value: "Reset" })),
             React.DOM.div({},
                 React.DOM.select({ multiple: 'multiple', className: 'selectText' }, optionsArray),
             ));
