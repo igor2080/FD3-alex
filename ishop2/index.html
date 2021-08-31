@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    <link rel="stylesheet" href="site.css">
+    <script src="StoreItem.js"></script>
+    <script src="StoreComponent.js"></script>
+    <script src="ItemComponent.js"></script>
+
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        var storeName = "Test Store";
+        var itemsArray = [
+            new StoreItem("Item 1", 29.99, "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png", 25),
+            new StoreItem("Item 2", 39.99, "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png", 34),
+        ];
+        
+        ReactDOM.render(
+            React.createElement(StoreComponent, {
+                storeName: storeName,
+                storeItems: itemsArray
+            }),
+            document.getElementById('container'),
+        );
+    </script>
+</body>
+
+</html>

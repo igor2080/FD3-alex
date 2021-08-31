@@ -1,0 +1,40 @@
+.StoreComponentMain .itemMainDiv {
+    margin: 0 1%;
+    display: inline-block;
+}
+
+.StoreComponentMain>h1 {
+    background-color: gray;
+    display: inline-block;
+}
+
+.StoreComponentMain .itemSpan {
+    padding: 0 1em;
+}
+
+.StoreComponentMain .itemImageContainer {
+    margin: 0 auto;
+    width: 50%;
+
+}
+
+.StoreComponentMain .itemImage {
+    width: 200px;
+    height: 200px;
+
+}
+
+.StoreTable,
+.StoreTable>tbody>tr,
+.StoreTable>tbody>tr>th,
+.StoreTable>tbody>tr>td {
+    border: 1px solid black;
+}
+
+.whiteRow {
+    background-color: white;
+}
+
+.orangeRow {
+    background-color: orangered;
+}
