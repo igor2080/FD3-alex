@@ -9,11 +9,11 @@ var ItemComponent = React.createClass({
     },
 
     deleteClicked: function () {
-        this.props.itemDeleted(this.props.storeItem.itemName);
+        this.props.itemDeleted(this.props.storeItem.itemId);
     },
 
     rowClicked: function () {
-        this.props.itemClicked(this.props.storeItem.itemName);
+        this.props.itemClicked(this.props.storeItem.itemId);
     },
 
     render: function () {

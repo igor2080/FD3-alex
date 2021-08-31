@@ -10,27 +10,23 @@ var StoreComponent = React.createClass({
     getInitialState: function () {
         return {
             localStoreItems: this.props.storeItems,
-            selectedRowName: '',
+            selectedRow: '',
         };
     },
 
-    cbItemDeleted: function (itemName) {
-        this.setState((curState, props) => {
-            curState.localStoreItems = curState.localStoreItems.filter(x => x.itemName != itemName);
-        });
+    cbItemDeleted: function (itemId) {
+        this.setState({ localStoreItems: this.state.localStoreItems.filter(x => x.itemId != itemId) });
     },
 
-    cbItemClicked: function (itemName) {
-        this.setState((curState, props) => {
-            curState.selectedRowName = itemName;
-        });
+    cbItemClicked: function (itemId) {
+        this.setState({ selectedRow: itemId });
     },
 
     render: function () {
         var renderItemArray = [];
         this.state.localStoreItems.forEach(item => {
             var storeItem =
-                React.createElement(ItemComponent, { key: item.itemName, storeItem: item, itemDeleted: this.cbItemDeleted, itemClicked: this.cbItemClicked, isSelected: item.itemName == this.state.selectedRowName });
+                React.createElement(ItemComponent, { key: item.itemId, storeItem: item, itemDeleted: this.cbItemDeleted, itemClicked: this.cbItemClicked, isSelected: item.itemId == this.state.selectedRow });
 
             renderItemArray.push(storeItem);
         });

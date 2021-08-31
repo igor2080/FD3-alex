@@ -1,5 +1,6 @@
 class StoreItem{
-    constructor(itemName,itemPrice,itemImageURL,itemRemainingAmountStored){
+    constructor(itemId,itemName,itemPrice,itemImageURL,itemRemainingAmountStored){
+        this.itemId=itemId
         this.itemName=itemName;
         this.itemPrice=itemPrice;
         this.itemImageURL=itemImageURL;
