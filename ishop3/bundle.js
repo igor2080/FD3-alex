@@ -51,11 +51,12 @@ var ItemComponent = function (_React$Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.deleteClicked = function (event) {
+            event.stopPropagation();
             _this.props.itemDeleted(_this.props.storeItem.itemId);
         }, _this.editClicked = function () {
             _this.props.editClicked(_this.props.storeItem.itemId);
-        }, _this.rowClicked = function (event) {
-            _this.props.itemClicked(_this.props.storeItem.itemId, event);
+        }, _this.rowClicked = function () {
+            _this.props.itemClicked(_this.props.storeItem.itemId);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -307,8 +308,7 @@ var StoreComponent = function (_React$Component) {
                 });
                 curState.selectedRow = '';
             });
-        }, _this.cbItemClicked = function (itemId, event) {
-            event.stopPropagation();
+        }, _this.cbItemClicked = function (itemId) {
             _this.setState({ selectedRow: itemId });
         }, _this.cbItemEdit = function (itemId) {}, _temp), _possibleConstructorReturn(_this, _ret);
     }
