@@ -50,11 +50,12 @@ var ItemComponent = function (_React$Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.deleteClicked = function (event) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call.apply(_ref, [this].concat(args))), _this), _this.deleteClicked = function (event) {
             event.stopPropagation();
             _this.props.itemDeleted(_this.props.storeItem.itemId);
-        }, _this.editClicked = function () {
-            _this.props.editClicked(_this.props.storeItem.itemId);
+        }, _this.editClicked = function (event) {
+            event.stopPropagation();
+            _this.props.itemEdit(_this.props.storeItem.itemId);
         }, _this.rowClicked = function () {
             _this.props.itemClicked(_this.props.storeItem.itemId);
         }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -107,41 +108,228 @@ var ItemComponent = function (_React$Component) {
 ItemComponent.propTypes = {
     storeItem: _propTypes2.default.instanceOf(_StoreItem2.default).isRequired,
     itemDeleted: _propTypes2.default.func,
-    editClicked: _propTypes2.default.func,
+    itemEdit: _propTypes2.default.func,
     itemClicked: _propTypes2.default.func,
     isSelected: _propTypes2.default.bool
 };
 exports["default"] = ItemComponent;
 
-// var ItemComponent = React.createClass({
-//     displayName: "ItemComponent",
+/***/ }),
 
-//     propTypes: {
-//         storeItem: React.PropTypes.instanceOf(StoreItem).isRequired,
-//         itemDeleted: React.PropTypes.func,
-//         itemClicked: React.PropTypes.func,
-//         isSelected: React.PropTypes.bool
-//     },
+/***/ "./components/ItemEdit.js":
+/*!********************************!*\
+  !*** ./components/ItemEdit.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-//     deleteClicked: function () {
-//         this.props.itemDeleted(this.props.storeItem.itemId);
-//     },
+"use strict";
 
-//     rowClicked: function () {
-//         this.props.itemClicked(this.props.storeItem.itemId);
-//     },
 
-//     render: function () {
-//         return React.DOM.tr({ className: this.props.isSelected ? 'orangeRow' : 'whiteRow', onClick: this.rowClicked },
-//             React.DOM.td({}, this.props.storeItem.itemName),
-//             React.DOM.td({}, this.props.storeItem.itemPrice),
-//             React.DOM.td({}, this.props.storeItem.itemImageURL),
-//             React.DOM.td({}, this.props.storeItem.itemRemainingAmountStored),
-//             React.DOM.td({},
-//                 React.DOM.input({ type: 'button', onClick: this.deleteClicked, value: 'Delete' })),
-//         );
-//     },
-// });
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _StoreItem = __webpack_require__(/*! ./StoreItem */ "./components/StoreItem.js");
+
+var _StoreItem2 = _interopRequireDefault(_StoreItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ItemEdit = function (_React$Component) {
+    _inherits(ItemEdit, _React$Component);
+
+    function ItemEdit() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, ItemEdit);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemEdit.__proto__ || Object.getPrototypeOf(ItemEdit)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            localStoreItem: Object.assign(_this.props.storeItem, {}),
+            isItemNameValid: true,
+            isItemPriceValid: true,
+            isItemURLValid: true,
+            isItemQuantityValid: true
+        }, _this.isValidItemName = function (string) {
+            return string.trim().length > 0;
+        }, _this.isValidHttpUrl = function (string) {
+            var url = void 0;
+
+            try {
+                url = new URL(string);
+            } catch (_) {
+                return false;
+            }
+
+            if (url.protocol === "http:" || url.protocol === "https:") {
+                return true;
+            }
+
+            return false;
+        }, _this.itemNameChanged = function (event) {
+            _this.setState(function (curState, props) {
+                return {
+                    isItemNameValid: _this.isValidItemName(event.target.value),
+                    localStoreItem: Object.assign(curState.localStoreItem, { itemName: event.target.value })
+                };
+            });
+        }, _this.itemPriceChanged = function (event) {
+            _this.setState(function (curState, props) {
+                return {
+                    isItemPriceValid: !isNaN(event.target.value) && event.target.value.trim().length > 0,
+                    localStoreItem: Object.assign(curState.localStoreItem, { itemPrice: Number(event.target.value) })
+                };
+            });
+        }, _this.itemURLChanged = function (event) {
+            _this.setState(function (curState, props) {
+                return {
+                    isItemURLValid: _this.isValidHttpUrl(event.target.value),
+                    localStoreItem: Object.assign(curState.localStoreItem, { itemImageURL: event.target.value })
+                };
+            });
+        }, _this.itemQuantityChanged = function (event) {
+            _this.setState(function (curState, props) {
+                return {
+                    isItemQuantityValid: !isNaN(event.target.value) && event.target.value.trim().length > 0 && Number(event.target.value) >= 0,
+                    localStoreItem: Object.assign(curState.localStoreItem, { itemRemainingAmountStored: Number(event.target.value) })
+                };
+            });
+        }, _this.saveClicked = function () {
+            if (_this.state.isItemNameValid && _this.state.isItemPriceValid && _this.state.isItemURLValid && _this.state.isItemQuantityValid) {
+                console.log('valid');
+                _this.props.saveChanges(_this.state.localStoreItem.itemId, _this.state.localStoreItem);
+            }
+        }, _this.cancelClicked = function () {
+            _this.props.cancelEdit();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(ItemEdit, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Edit existing item'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'ID: ',
+                        this.props.storeItem.itemId
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'itemName' },
+                        'Item Name: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemName', defaultValue: this.props.storeItem.itemName, onChange: this.itemNameChanged }),
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'dangerText' },
+                        this.state.isItemNameValid ? '' : 'Please enter a name. It must be a string'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'itemPrice' },
+                        'Item Price: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemPrice', defaultValue: this.props.storeItem.itemPrice, onChange: this.itemPriceChanged }),
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'dangerText' },
+                        this.state.isItemPriceValid ? '' : 'Please enter a price. It must be a number'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'itemImageURL' },
+                        'Item Image URL: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemImageURL', defaultValue: this.props.storeItem.itemImageURL, onChange: this.itemURLChanged }),
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'dangerText' },
+                        this.state.isItemURLValid ? '' : 'Please enter an image URL. It must be a URL string'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'itemQuantity' },
+                        'Remaining item quantity: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemQuantity', defaultValue: this.props.storeItem.itemRemainingAmountStored, onChange: this.itemQuantityChanged }),
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'dangerText' },
+                        this.state.isItemQuantityValid ? '' : 'Please enter an amount. It must be a positive number or zero'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement('input', { type: 'button', onClick: this.saveClicked, value: 'Save' })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement('input', { type: 'button', onClick: this.cancelClicked, value: 'Cancel' })
+                )
+            );
+        }
+    }]);
+
+    return ItemEdit;
+}(_react2.default.Component);
+
+ItemEdit.propTypes = {
+    storeItem: _propTypes2.default.instanceOf(_StoreItem2.default).isRequired,
+    saveChanges: _propTypes2.default.func,
+    cancelEdit: _propTypes2.default.func
+
+};
+exports["default"] = ItemEdit;
 
 /***/ }),
 
@@ -167,10 +355,6 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _ItemComponent = __webpack_require__(/*! ./ItemComponent */ "./components/ItemComponent.js");
-
-var _ItemComponent2 = _interopRequireDefault(_ItemComponent);
 
 var _StoreItem = __webpack_require__(/*! ./StoreItem */ "./components/StoreItem.js");
 
@@ -276,6 +460,10 @@ var _ItemPreview = __webpack_require__(/*! ./ItemPreview */ "./components/ItemPr
 
 var _ItemPreview2 = _interopRequireDefault(_ItemPreview);
 
+var _ItemEdit = __webpack_require__(/*! ./ItemEdit */ "./components/ItemEdit.js");
+
+var _ItemEdit2 = _interopRequireDefault(_ItemEdit);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -300,17 +488,77 @@ var StoreComponent = function (_React$Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = StoreComponent.__proto__ || Object.getPrototypeOf(StoreComponent)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             localStoreItems: _this.props.storeItems,
-            selectedRow: ''
+            selectedRow: '',
+            displayMode: ''
+
         }, _this.cbItemDeleted = function (itemId) {
+            if (_this.state.displayMode === 'edit') return;
+
             _this.setState(function (curState, props) {
-                curState.localStoreItems = curState.localStoreItems.filter(function (x) {
-                    return x.itemId != itemId;
-                });
-                curState.selectedRow = '';
+                return {
+                    localStoreItems: curState.localStoreItems.filter(function (x) {
+                        return x.itemId != itemId;
+                    }),
+                    selectedRow: '',
+                    displayMode: ''
+                };
             });
         }, _this.cbItemClicked = function (itemId) {
-            _this.setState({ selectedRow: itemId });
-        }, _this.cbItemEdit = function (itemId) {}, _temp), _possibleConstructorReturn(_this, _ret);
+
+            _this.setState(function (curState, props) {
+                return {
+                    selectedRow: itemId,
+                    displayMode: 'preview'
+                };
+            });
+        }, _this.cbItemEdit = function (itemId) {
+            if (_this.state.displayMode === 'edit') return;
+
+            _this.setState(function (curState, props) {
+                return {
+                    selectedRow: itemId,
+                    displayMode: 'edit'
+                };
+            });
+        }, _this.cbItemEditSaveChanges = function (id, item) {
+            var localItemCopy = Object.assign(_this.state.localStoreItems, {});
+            var itemIndex = localItemCopy.findIndex(function (x) {
+                return x.itemId == id;
+            });
+            console.log(itemIndex);
+            if (itemIndex != -1) {
+                console.log('modify');
+                console.log(item);
+                localItemCopy[itemIndex] = item;
+            } else {
+                item.itemId = localItemCopy.length;
+                console.log('create');
+                console.log(item);
+                localItemCopy.push(item);
+            }
+
+            _this.setState(function (curState, props) {
+                return {
+                    localStoreItems: localItemCopy
+                };
+            });
+
+            _this.clearDisplayMode();
+        }, _this.cbItemCreate = function () {
+            _this.setState({
+                selectedRow: '',
+                displayMode: 'create'
+            });
+        }, _this.cbCancelEdit = function () {
+            _this.clearDisplayMode();
+        }, _this.clearDisplayMode = function () {
+            _this.setState(function (curState, props) {
+                return {
+                    selectedRow: '',
+                    displayMode: ''
+                };
+            });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(StoreComponent, [{
@@ -321,6 +569,22 @@ var StoreComponent = function (_React$Component) {
             var renderItemArray = this.state.localStoreItems.map(function (item) {
                 return _react2.default.createElement(_ItemComponent2.default, { key: item.itemId, storeItem: item, itemEdit: _this2.cbItemEdit, itemDeleted: _this2.cbItemDeleted, itemClicked: _this2.cbItemClicked, isSelected: item.itemId == _this2.state.selectedRow });
             });
+
+            var displayItemInfo;
+            if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
+                switch (this.state.displayMode) {
+                    case 'preview':
+                        displayItemInfo = _react2.default.createElement(_ItemPreview2.default, { storeItem: this.state.localStoreItems.find(function (x) {
+                                return x.itemId === _this2.state.selectedRow;
+                            }) });
+                        break;
+                    case 'edit':
+                        displayItemInfo = _react2.default.createElement(_ItemEdit2.default, { storeItem: this.state.localStoreItems.find(function (x) {
+                                return x.itemId === _this2.state.selectedRow;
+                            }), saveChanges: this.cbItemEditSaveChanges, cancelEdit: this.cbCancelEdit });
+                        break;
+                }
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -363,10 +627,7 @@ var StoreComponent = function (_React$Component) {
                         renderItemArray
                     )
                 ),
-                console.log(this.state.selectedRow),
-                this.state.selectedRow !== '' && _react2.default.createElement(_ItemPreview2.default, { storeItem: this.state.localStoreItems.find(function (x) {
-                        return x.itemId === _this2.state.selectedRow;
-                    }) })
+                displayItemInfo
             );
         }
     }]);
@@ -377,55 +638,9 @@ var StoreComponent = function (_React$Component) {
 StoreComponent.propTypes = {
     storeName: _propTypes2.default.string,
     storeItems: _propTypes2.default.arrayOf(_propTypes2.default.instanceOf(_StoreItem2.default)).isRequired
+
 };
 exports["default"] = StoreComponent;
-
-// var StoreComponent = React.createClass({
-
-//     displayName: "StoreComponent",
-
-//     propTypes: {
-//         storeName: React.PropTypes.string,
-//         storeItems: React.PropTypes.arrayOf(React.PropTypes.instanceOf(StoreItem)).isRequired,
-//     },
-
-//     getInitialState: function () {
-//         return {
-//             localStoreItems: this.props.storeItems,
-//             selectedRow: '',
-//         };
-//     },
-
-//     cbItemDeleted: function (itemId) {
-//         this.setState({ localStoreItems: this.state.localStoreItems.filter(x => x.itemId != itemId) });
-//     },
-
-//     cbItemClicked: function (itemId) {
-//         this.setState({ selectedRow: itemId });
-//     },
-
-//     render: function () {
-//         var renderItemArray = [];
-//         this.state.localStoreItems.forEach(item => {
-//             var storeItem =
-//                 React.createElement(ItemComponent, { key: item.itemId, storeItem: item, itemDeleted: this.cbItemDeleted, itemClicked: this.cbItemClicked, isSelected: item.itemId == this.state.selectedRow });
-
-//             renderItemArray.push(storeItem);
-//         });
-
-//         return React.DOM.table({ className: 'StoreTable' },
-//             React.DOM.tbody({},
-//                 React.DOM.tr({},
-//                     React.DOM.th({}, 'Name'),
-//                     React.DOM.th({}, 'Price'),
-//                     React.DOM.th({}, 'URL'),
-//                     React.DOM.th({}, 'Quantity'),
-//                     React.DOM.th({}, 'Control'),
-//                 ),
-//                 renderItemArray,
-//             ));
-//     }
-// });
 
 /***/ }),
 

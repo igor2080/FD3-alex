@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ItemComponent from './ItemComponent';
 import StoreItem from './StoreItem';
 
 class ItemPreview extends React.Component {
@@ -9,7 +8,7 @@ class ItemPreview extends React.Component {
     static propTypes = {
         storeItem: PropTypes.instanceOf(StoreItem).isRequired,
 
-    }
+    };
 
     render(){
         return(

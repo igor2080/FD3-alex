@@ -5,6 +5,6 @@ class StoreItem{
         this.itemPrice=itemPrice;
         this.itemImageURL=itemImageURL;
         this.itemRemainingAmountStored=itemRemainingAmountStored;
-    }
+    };
 }
 export default StoreItem;

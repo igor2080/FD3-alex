@@ -4,38 +4,126 @@ import PropTypes from 'prop-types';
 import ItemComponent from './ItemComponent';
 import StoreItem from './StoreItem';
 import ItemPreview from './ItemPreview';
+import ItemEdit from './ItemEdit';
 
 class StoreComponent extends React.Component {
 
     static propTypes = {
         storeName: PropTypes.string,
-        storeItems: PropTypes.arrayOf(PropTypes.instanceOf(StoreItem)).isRequired
+        storeItems: PropTypes.arrayOf(PropTypes.instanceOf(StoreItem)).isRequired,
+
     };
 
     state = {
         localStoreItems: this.props.storeItems,
-        selectedRow: ''
+        selectedRow: '',
+        displayMode: '',
+
     };
 
     cbItemDeleted = (itemId) => {
+        if (this.state.displayMode === 'edit')
+            return;
+
         this.setState((curState, props) => {
-            curState.localStoreItems = curState.localStoreItems.filter(x => x.itemId != itemId);
-            curState.selectedRow = ''
+            return {
+                localStoreItems: curState.localStoreItems.filter(x => x.itemId != itemId),
+                selectedRow: '',
+                displayMode: '',
+            }
         });
+
+
     };
 
     cbItemClicked = (itemId) => {
-        this.setState({ selectedRow: itemId });
+
+        this.setState((curState, props) => {
+            return {
+                selectedRow: itemId,
+                displayMode: 'preview',
+            }
+        });
+
+
     };
 
     cbItemEdit = (itemId) => {
+        if (this.state.displayMode === 'edit')
+            return;
 
+        this.setState((curState, props) => {
+            return {
+                selectedRow: itemId,
+                displayMode: 'edit',
+            }
+        });
+
+
+    };
+
+    cbItemEditSaveChanges = (id, item) => {
+        var localItemCopy = Object.assign(this.state.localStoreItems, {});
+        var itemIndex = localItemCopy.findIndex(x => x.itemId == id);
+        console.log(itemIndex);
+        if (itemIndex != -1) {
+            console.log('modify');
+            console.log(item);
+            localItemCopy[itemIndex] =  item;
+        }
+        else {
+            item.itemId = localItemCopy.length;
+            console.log('create');
+            console.log(item);
+            localItemCopy.push(item);
+        }
+
+        this.setState((curState, props) => {
+            return {
+                localStoreItems: localItemCopy
+            }
+        });
+
+        this.clearDisplayMode();
+    };
+
+    cbItemCreate = () => {
+        this.setState({
+            selectedRow: '',
+            displayMode: 'create',
+        });
+    };
+
+    cbCancelEdit = () => {
+        this.clearDisplayMode();
+    };
+
+    clearDisplayMode = () =>{
+        this.setState((curState, props) => {
+            return {
+                selectedRow: '',
+                displayMode: '',
+            }
+        });
     }
+
 
     render() {
         var renderItemArray = this.state.localStoreItems.map(item =>
             <ItemComponent key={item.itemId} storeItem={item} itemEdit={this.cbItemEdit} itemDeleted={this.cbItemDeleted} itemClicked={this.cbItemClicked} isSelected={item.itemId == this.state.selectedRow} />
         );
+
+        var displayItemInfo;
+        if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
+            switch (this.state.displayMode) {
+                case 'preview':
+                    displayItemInfo = <ItemPreview storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)} />
+                    break;
+                case 'edit':
+                    displayItemInfo = <ItemEdit storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)} saveChanges={this.cbItemEditSaveChanges} cancelEdit={this.cbCancelEdit} />
+                    break;
+            }
+        }
 
         return (
             <div>
@@ -52,63 +140,10 @@ class StoreComponent extends React.Component {
                     </tbody>
                 </table>
                 {
-                    console.log(this.state.selectedRow)
-                }
-                {
-                    (this.state.selectedRow !== '') &&
-                    <ItemPreview storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)} />
-
+                    displayItemInfo
                 }
             </div>
         );
     };
 }
 export default StoreComponent;
-
-
-// var StoreComponent = React.createClass({
-
-//     displayName: "StoreComponent",
-
-//     propTypes: {
-//         storeName: React.PropTypes.string,
-//         storeItems: React.PropTypes.arrayOf(React.PropTypes.instanceOf(StoreItem)).isRequired,
-//     },
-
-//     getInitialState: function () {
-//         return {
-//             localStoreItems: this.props.storeItems,
-//             selectedRow: '',
-//         };
-//     },
-
-//     cbItemDeleted: function (itemId) {
-//         this.setState({ localStoreItems: this.state.localStoreItems.filter(x => x.itemId != itemId) });
-//     },
-
-//     cbItemClicked: function (itemId) {
-//         this.setState({ selectedRow: itemId });
-//     },
-
-//     render: function () {
-//         var renderItemArray = [];
-//         this.state.localStoreItems.forEach(item => {
-//             var storeItem =
-//                 React.createElement(ItemComponent, { key: item.itemId, storeItem: item, itemDeleted: this.cbItemDeleted, itemClicked: this.cbItemClicked, isSelected: item.itemId == this.state.selectedRow });
-
-//             renderItemArray.push(storeItem);
-//         });
-
-//         return React.DOM.table({ className: 'StoreTable' },
-//             React.DOM.tbody({},
-//                 React.DOM.tr({},
-//                     React.DOM.th({}, 'Name'),
-//                     React.DOM.th({}, 'Price'),
-//                     React.DOM.th({}, 'URL'),
-//                     React.DOM.th({}, 'Quantity'),
-//                     React.DOM.th({}, 'Control'),
-//                 ),
-//                 renderItemArray,
-//             ));
-//     }
-// });
