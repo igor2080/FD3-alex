@@ -6,13 +6,18 @@ import StoreItem from './StoreItem';
 class ItemEdit extends React.Component {
 
     static propTypes = {
-        storeItem: PropTypes.instanceOf(StoreItem).isRequired,
+        //storeItem: PropTypes.instanceOf(StoreItem).isRequired,
+        storeItemId: PropTypes.number,
+        storeItemName: PropTypes.string,
+        storeItemPrice: PropTypes.number,
+        storeItemImageURL: PropTypes.string,
+        storeItemQuantity: PropTypes.number,
         saveChanges: PropTypes.func,
         cancelEdit: PropTypes.func,
     };
 
     state = {
-        localStoreItem: Object.assign(this.props.storeItem, {}),
+        localStoreItem: new StoreItem(this.props.storeItemId, this.props.storeItemName, this.props.storeItemPrice, this.props.storeItemImageURL, this.props.storeItemQuantity),
         isItemNameValid: true,
         isItemPriceValid: true,
         isItemURLValid: true,
@@ -91,26 +96,26 @@ class ItemEdit extends React.Component {
             <div>
                 <h2>Edit existing item</h2>
                 <div>
-                    <label>ID: {this.props.storeItem.itemId}</label>
+                    <label>ID: {this.props.storeItemId}</label>
                 </div>
                 <div>
                     <label htmlFor="itemName">Item Name: </label>
-                    <input type="text" id="itemName" defaultValue={this.props.storeItem.itemName} onChange={this.itemNameChanged} />
+                    <input type="text" id="itemName" defaultValue={this.props.storeItemName} onChange={this.itemNameChanged} />
                     <label className="dangerText">{this.state.isItemNameValid ? '' : 'Please enter a name. It must be a string'}</label>
                 </div>
                 <div>
                     <label htmlFor="itemPrice">Item Price: </label>
-                    <input type="text" id="itemPrice" defaultValue={this.props.storeItem.itemPrice} onChange={this.itemPriceChanged} />
+                    <input type="text" id="itemPrice" defaultValue={this.props.storeItemPrice} onChange={this.itemPriceChanged} />
                     <label className="dangerText">{this.state.isItemPriceValid ? '' : 'Please enter a price. It must be a number'}</label>
                 </div>
                 <div>
                     <label htmlFor="itemImageURL">Item Image URL: </label>
-                    <input type="text" id="itemImageURL" defaultValue={this.props.storeItem.itemImageURL} onChange={this.itemURLChanged} />
+                    <input type="text" id="itemImageURL" defaultValue={this.props.storeItemImageURL} onChange={this.itemURLChanged} />
                     <label className="dangerText">{this.state.isItemURLValid ? '' : 'Please enter an image URL. It must be a URL string'}</label>
                 </div>
                 <div>
                     <label htmlFor="itemQuantity">Remaining item quantity: </label>
-                    <input type="text" id="itemQuantity" defaultValue={this.props.storeItem.itemRemainingAmountStored} onChange={this.itemQuantityChanged} />
+                    <input type="text" id="itemQuantity" defaultValue={this.props.storeItemQuantity} onChange={this.itemQuantityChanged} />
                     <label className="dangerText">{this.state.isItemQuantityValid ? '' : 'Please enter an amount. It must be a positive number or zero'}</label>
                 </div>
                 <div>

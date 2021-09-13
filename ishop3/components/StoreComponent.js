@@ -69,7 +69,7 @@ class StoreComponent extends React.Component {
         if (itemIndex != -1) {
             console.log('modify');
             console.log(item);
-            localItemCopy[itemIndex] =  item;
+            localItemCopy[itemIndex] = item;
         }
         else {
             item.itemId = localItemCopy.length;
@@ -98,7 +98,7 @@ class StoreComponent extends React.Component {
         this.clearDisplayMode();
     };
 
-    clearDisplayMode = () =>{
+    clearDisplayMode = () => {
         this.setState((curState, props) => {
             return {
                 selectedRow: '',
@@ -115,12 +115,21 @@ class StoreComponent extends React.Component {
 
         var displayItemInfo;
         if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
+            var currentItem = this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow);
             switch (this.state.displayMode) {
                 case 'preview':
-                    displayItemInfo = <ItemPreview storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)} />
+                    displayItemInfo = <ItemPreview storeItem={currentItem} />
                     break;
                 case 'edit':
-                    displayItemInfo = <ItemEdit storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)} saveChanges={this.cbItemEditSaveChanges} cancelEdit={this.cbCancelEdit} />
+                    displayItemInfo = <ItemEdit
+                        storeItemId={currentItem.itemId}
+                        storeItemName={currentItem.itemName}
+                        storeItemPrice={currentItem.itemPrice}
+                        storeItemImageURL={currentItem.itemImageURL}
+                        storeItemQuantity={currentItem.itemRemainingAmountStored}
+                        storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)}
+                        saveChanges={this.cbItemEditSaveChanges}
+                        cancelEdit={this.cbCancelEdit} />
                     break;
             }
         }

@@ -166,7 +166,7 @@ var ItemEdit = function (_React$Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemEdit.__proto__ || Object.getPrototypeOf(ItemEdit)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            localStoreItem: Object.assign(_this.props.storeItem, {}),
+            localStoreItem: new _StoreItem2.default(_this.props.storeItemId, _this.props.storeItemName, _this.props.storeItemPrice, _this.props.storeItemImageURL, _this.props.storeItemQuantity),
             isItemNameValid: true,
             isItemPriceValid: true,
             isItemURLValid: true,
@@ -243,7 +243,7 @@ var ItemEdit = function (_React$Component) {
                         'label',
                         null,
                         'ID: ',
-                        this.props.storeItem.itemId
+                        this.props.storeItemId
                     )
                 ),
                 _react2.default.createElement(
@@ -254,7 +254,7 @@ var ItemEdit = function (_React$Component) {
                         { htmlFor: 'itemName' },
                         'Item Name: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', id: 'itemName', defaultValue: this.props.storeItem.itemName, onChange: this.itemNameChanged }),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemName', defaultValue: this.props.storeItemName, onChange: this.itemNameChanged }),
                     _react2.default.createElement(
                         'label',
                         { className: 'dangerText' },
@@ -269,7 +269,7 @@ var ItemEdit = function (_React$Component) {
                         { htmlFor: 'itemPrice' },
                         'Item Price: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', id: 'itemPrice', defaultValue: this.props.storeItem.itemPrice, onChange: this.itemPriceChanged }),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemPrice', defaultValue: this.props.storeItemPrice, onChange: this.itemPriceChanged }),
                     _react2.default.createElement(
                         'label',
                         { className: 'dangerText' },
@@ -284,7 +284,7 @@ var ItemEdit = function (_React$Component) {
                         { htmlFor: 'itemImageURL' },
                         'Item Image URL: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', id: 'itemImageURL', defaultValue: this.props.storeItem.itemImageURL, onChange: this.itemURLChanged }),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemImageURL', defaultValue: this.props.storeItemImageURL, onChange: this.itemURLChanged }),
                     _react2.default.createElement(
                         'label',
                         { className: 'dangerText' },
@@ -299,7 +299,7 @@ var ItemEdit = function (_React$Component) {
                         { htmlFor: 'itemQuantity' },
                         'Remaining item quantity: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', id: 'itemQuantity', defaultValue: this.props.storeItem.itemRemainingAmountStored, onChange: this.itemQuantityChanged }),
+                    _react2.default.createElement('input', { type: 'text', id: 'itemQuantity', defaultValue: this.props.storeItemQuantity, onChange: this.itemQuantityChanged }),
                     _react2.default.createElement(
                         'label',
                         { className: 'dangerText' },
@@ -324,10 +324,14 @@ var ItemEdit = function (_React$Component) {
 }(_react2.default.Component);
 
 ItemEdit.propTypes = {
-    storeItem: _propTypes2.default.instanceOf(_StoreItem2.default).isRequired,
+    //storeItem: PropTypes.instanceOf(StoreItem).isRequired,
+    storeItemId: _propTypes2.default.number,
+    storeItemName: _propTypes2.default.string,
+    storeItemPrice: _propTypes2.default.number,
+    storeItemImageURL: _propTypes2.default.string,
+    storeItemQuantity: _propTypes2.default.number,
     saveChanges: _propTypes2.default.func,
     cancelEdit: _propTypes2.default.func
-
 };
 exports["default"] = ItemEdit;
 
@@ -572,16 +576,25 @@ var StoreComponent = function (_React$Component) {
 
             var displayItemInfo;
             if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
+                var currentItem = this.state.localStoreItems.find(function (x) {
+                    return x.itemId === _this2.state.selectedRow;
+                });
                 switch (this.state.displayMode) {
                     case 'preview':
-                        displayItemInfo = _react2.default.createElement(_ItemPreview2.default, { storeItem: this.state.localStoreItems.find(function (x) {
-                                return x.itemId === _this2.state.selectedRow;
-                            }) });
+                        displayItemInfo = _react2.default.createElement(_ItemPreview2.default, { storeItem: currentItem });
                         break;
                     case 'edit':
-                        displayItemInfo = _react2.default.createElement(_ItemEdit2.default, { storeItem: this.state.localStoreItems.find(function (x) {
+                        displayItemInfo = _react2.default.createElement(_ItemEdit2.default, {
+                            storeItemId: currentItem.itemId,
+                            storeItemName: currentItem.itemName,
+                            storeItemPrice: currentItem.itemPrice,
+                            storeItemImageURL: currentItem.itemImageURL,
+                            storeItemQuantity: currentItem.itemRemainingAmountStored,
+                            storeItem: this.state.localStoreItems.find(function (x) {
                                 return x.itemId === _this2.state.selectedRow;
-                            }), saveChanges: this.cbItemEditSaveChanges, cancelEdit: this.cbCancelEdit });
+                            }),
+                            saveChanges: this.cbItemEditSaveChanges,
+                            cancelEdit: this.cbCancelEdit });
                         break;
                 }
             }
