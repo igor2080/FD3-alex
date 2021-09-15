@@ -64,7 +64,6 @@ var ItemComponent = function (_React$Component) {
     _createClass(ItemComponent, [{
         key: 'render',
         value: function render() {
-
             return _react2.default.createElement(
                 'tr',
                 { className: this.props.isSelected ? 'orangeRow' : 'whiteRow', onClick: this.rowClicked },
@@ -167,10 +166,10 @@ var ItemEdit = function (_React$Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemEdit.__proto__ || Object.getPrototypeOf(ItemEdit)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             localStoreItem: new _StoreItem2.default(_this.props.storeItemId, _this.props.storeItemName, _this.props.storeItemPrice, _this.props.storeItemImageURL, _this.props.storeItemQuantity),
-            isItemNameValid: true,
-            isItemPriceValid: true,
-            isItemURLValid: true,
-            isItemQuantityValid: true
+            isItemNameValid: _this.props.storeItemName !== undefined,
+            isItemPriceValid: _this.props.storeItemPrice !== undefined,
+            isItemURLValid: _this.props.storeItemImageURL !== undefined,
+            isItemQuantityValid: _this.props.storeItemQuantity !== undefined
         }, _this.isValidItemName = function (string) {
             return string.trim().length > 0;
         }, _this.isValidHttpUrl = function (string) {
@@ -217,7 +216,6 @@ var ItemEdit = function (_React$Component) {
             });
         }, _this.saveClicked = function () {
             if (_this.state.isItemNameValid && _this.state.isItemPriceValid && _this.state.isItemURLValid && _this.state.isItemQuantityValid) {
-                console.log('valid');
                 _this.props.saveChanges(_this.state.localStoreItem.itemId, _this.state.localStoreItem);
             }
         }, _this.cancelClicked = function () {
@@ -231,11 +229,6 @@ var ItemEdit = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
-                    'h2',
-                    null,
-                    'Edit existing item'
-                ),
                 _react2.default.createElement(
                     'div',
                     null,
@@ -496,7 +489,7 @@ var StoreComponent = function (_React$Component) {
             displayMode: ''
 
         }, _this.cbItemDeleted = function (itemId) {
-            if (_this.state.displayMode === 'edit') return;
+            if (!_this.isAllowedClicking()) return;
 
             _this.setState(function (curState, props) {
                 return {
@@ -508,6 +501,7 @@ var StoreComponent = function (_React$Component) {
                 };
             });
         }, _this.cbItemClicked = function (itemId) {
+            if (!_this.isAllowedClicking()) return;
 
             _this.setState(function (curState, props) {
                 return {
@@ -516,7 +510,7 @@ var StoreComponent = function (_React$Component) {
                 };
             });
         }, _this.cbItemEdit = function (itemId) {
-            if (_this.state.displayMode === 'edit') return;
+            if (!_this.isAllowedClicking()) return;
 
             _this.setState(function (curState, props) {
                 return {
@@ -529,15 +523,9 @@ var StoreComponent = function (_React$Component) {
             var itemIndex = localItemCopy.findIndex(function (x) {
                 return x.itemId == id;
             });
-            console.log(itemIndex);
             if (itemIndex != -1) {
-                console.log('modify');
-                console.log(item);
                 localItemCopy[itemIndex] = item;
             } else {
-                item.itemId = localItemCopy.length;
-                console.log('create');
-                console.log(item);
                 localItemCopy.push(item);
             }
 
@@ -548,7 +536,7 @@ var StoreComponent = function (_React$Component) {
             });
 
             _this.clearDisplayMode();
-        }, _this.cbItemCreate = function () {
+        }, _this.createClicked = function () {
             _this.setState({
                 selectedRow: '',
                 displayMode: 'create'
@@ -562,6 +550,8 @@ var StoreComponent = function (_React$Component) {
                     displayMode: ''
                 };
             });
+        }, _this.isAllowedClicking = function () {
+            return !(_this.state.displayMode === 'edit' || _this.state.displayMode === 'create');
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -590,14 +580,18 @@ var StoreComponent = function (_React$Component) {
                             storeItemPrice: currentItem.itemPrice,
                             storeItemImageURL: currentItem.itemImageURL,
                             storeItemQuantity: currentItem.itemRemainingAmountStored,
-                            storeItem: this.state.localStoreItems.find(function (x) {
-                                return x.itemId === _this2.state.selectedRow;
-                            }),
                             saveChanges: this.cbItemEditSaveChanges,
                             cancelEdit: this.cbCancelEdit });
                         break;
+                    case 'create':
+                        displayItemInfo = _react2.default.createElement(_ItemEdit2.default, {
+                            storeItemId: this.state.localStoreItems.length + 1,
+                            saveChanges: this.cbItemEditSaveChanges,
+                            cancelEdit: this.cbCancelEdit
+                        });
+                        break;
                 }
-            }
+            } else {}
 
             return _react2.default.createElement(
                 'div',
@@ -640,6 +634,7 @@ var StoreComponent = function (_React$Component) {
                         renderItemArray
                     )
                 ),
+                this.state.displayMode == '' || this.state.displayMode == 'preview' ? _react2.default.createElement('input', { type: 'button', onClick: this.createClicked, value: 'Create new item' }) : '',
                 displayItemInfo
             );
         }
@@ -31475,6 +31470,17 @@ if (false) {} else {
 }
 
 
+/***/ }),
+
+/***/ "./SampleItems.json":
+/*!**************************!*\
+  !*** ./SampleItems.json ***!
+  \**************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('[{"itemId":1,"itemName":"Item 1","itemPrice":29.99,"itemImageURL":"https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png","itemRemainingAmountStored":25},{"itemId":2,"itemName":"Item 2","itemPrice":39.99,"itemImageURL":"https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png","itemRemainingAmountStored":34}]');
+
 /***/ })
 
 /******/ 	});
@@ -31527,8 +31533,14 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 
 var storeName = "Test Store";
-var itemsArray = [new _StoreItem2.default(1, "Item 1", 29.99, "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png", 25), new _StoreItem2.default(2, "Item 2", 39.99, "https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png", 34)];
-
+// var itemsArray = [
+//     new StoreItem(1, "Item 1", 29.99, "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png", 25),
+//     new StoreItem(2, "Item 2", 39.99, "https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png", 34),
+// ];
+var itemsArray = __webpack_require__(/*! ./SampleItems.json */ "./SampleItems.json");
+itemsArray = itemsArray.map(function (item) {
+    return Object.assign(new _StoreItem2.default(), item);
+});
 ReactDOM.render(React.createElement(_StoreComponent2.default, {
     storeName: storeName,
     storeItems: itemsArray

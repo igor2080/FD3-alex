@@ -24,12 +24,11 @@ class ItemComponent extends React.Component {
         this.props.itemEdit(this.props.storeItem.itemId);
     };
 
-    rowClicked = () => {        
+    rowClicked = () => {
         this.props.itemClicked(this.props.storeItem.itemId);
     };
 
     render() {
-
         return (
             <tr className={this.props.isSelected ? 'orangeRow' : 'whiteRow'} onClick={this.rowClicked}>
                 <td>{this.props.storeItem.itemName}</td>

@@ -22,7 +22,7 @@ class StoreComponent extends React.Component {
     };
 
     cbItemDeleted = (itemId) => {
-        if (this.state.displayMode === 'edit')
+        if(!this.isAllowedClicking())
             return;
 
         this.setState((curState, props) => {
@@ -37,6 +37,8 @@ class StoreComponent extends React.Component {
     };
 
     cbItemClicked = (itemId) => {
+        if(!this.isAllowedClicking())
+            return;
 
         this.setState((curState, props) => {
             return {
@@ -49,7 +51,7 @@ class StoreComponent extends React.Component {
     };
 
     cbItemEdit = (itemId) => {
-        if (this.state.displayMode === 'edit')
+        if(!this.isAllowedClicking())
             return;
 
         this.setState((curState, props) => {
@@ -65,16 +67,10 @@ class StoreComponent extends React.Component {
     cbItemEditSaveChanges = (id, item) => {
         var localItemCopy = Object.assign(this.state.localStoreItems, {});
         var itemIndex = localItemCopy.findIndex(x => x.itemId == id);
-        console.log(itemIndex);
         if (itemIndex != -1) {
-            console.log('modify');
-            console.log(item);
             localItemCopy[itemIndex] = item;
         }
         else {
-            item.itemId = localItemCopy.length;
-            console.log('create');
-            console.log(item);
             localItemCopy.push(item);
         }
 
@@ -87,7 +83,7 @@ class StoreComponent extends React.Component {
         this.clearDisplayMode();
     };
 
-    cbItemCreate = () => {
+    createClicked = () => {
         this.setState({
             selectedRow: '',
             displayMode: 'create',
@@ -105,7 +101,11 @@ class StoreComponent extends React.Component {
                 displayMode: '',
             }
         });
-    }
+    };
+
+    isAllowedClicking = () => {
+        return !(this.state.displayMode === 'edit' || this.state.displayMode === 'create')
+    };
 
 
     render() {
@@ -127,11 +127,20 @@ class StoreComponent extends React.Component {
                         storeItemPrice={currentItem.itemPrice}
                         storeItemImageURL={currentItem.itemImageURL}
                         storeItemQuantity={currentItem.itemRemainingAmountStored}
-                        storeItem={this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow)}
                         saveChanges={this.cbItemEditSaveChanges}
                         cancelEdit={this.cbCancelEdit} />
                     break;
+                case 'create':
+                    displayItemInfo = <ItemEdit
+                        storeItemId={(this.state.localStoreItems.length + 1)}
+                        saveChanges={this.cbItemEditSaveChanges}
+                        cancelEdit={this.cbCancelEdit}
+                    />
+                    break;
             }
+        }
+        else {
+
         }
 
         return (
@@ -148,6 +157,10 @@ class StoreComponent extends React.Component {
                         {renderItemArray}
                     </tbody>
                 </table>
+                {
+
+                    (this.state.displayMode == '' || this.state.displayMode == 'preview') ? <input type="button" onClick={this.createClicked} value="Create new item" /> : ''
+                }
                 {
                     displayItemInfo
                 }

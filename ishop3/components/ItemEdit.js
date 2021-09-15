@@ -18,10 +18,10 @@ class ItemEdit extends React.Component {
 
     state = {
         localStoreItem: new StoreItem(this.props.storeItemId, this.props.storeItemName, this.props.storeItemPrice, this.props.storeItemImageURL, this.props.storeItemQuantity),
-        isItemNameValid: true,
-        isItemPriceValid: true,
-        isItemURLValid: true,
-        isItemQuantityValid: true,
+        isItemNameValid: this.props.storeItemName !== undefined,
+        isItemPriceValid: this.props.storeItemPrice !== undefined,
+        isItemURLValid: this.props.storeItemImageURL !== undefined,
+        isItemQuantityValid: this.props.storeItemQuantity !== undefined,
     };
 
     isValidItemName = (string) => {
@@ -82,7 +82,6 @@ class ItemEdit extends React.Component {
 
     saveClicked = () => {
         if (this.state.isItemNameValid && this.state.isItemPriceValid && this.state.isItemURLValid && this.state.isItemQuantityValid) {
-            console.log('valid');
             this.props.saveChanges(this.state.localStoreItem.itemId, this.state.localStoreItem);
         }
     };
@@ -94,7 +93,6 @@ class ItemEdit extends React.Component {
     render() {
         return (
             <div>
-                <h2>Edit existing item</h2>
                 <div>
                     <label>ID: {this.props.storeItemId}</label>
                 </div>
