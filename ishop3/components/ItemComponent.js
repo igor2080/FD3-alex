@@ -17,7 +17,6 @@ class ItemComponent extends React.Component {
     deleteClicked = (event) => {
         event.stopPropagation();
         this.props.itemDeleted(this.props.storeItem.itemId);
-
     };
 
     editClicked = (event) => {

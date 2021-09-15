@@ -6,7 +6,6 @@ import StoreItem from './StoreItem';
 class ItemEdit extends React.Component {
 
     static propTypes = {
-        //storeItem: PropTypes.instanceOf(StoreItem).isRequired,
         storeItemId: PropTypes.number,
         storeItemName: PropTypes.string,
         storeItemPrice: PropTypes.number,

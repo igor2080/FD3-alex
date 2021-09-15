@@ -1,4 +1,15 @@
-[
-{"itemId":1,"itemName":"Item 1","itemPrice":29.99,"itemImageURL":"https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png","itemRemainingAmountStored":25},
-{"itemId":2,"itemName":"Item 2","itemPrice":39.99,"itemImageURL":"https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png","itemRemainingAmountStored":34}
+[{
+        "itemId": 1,
+        "itemName": "Item 1",
+        "itemPrice": 29.99,
+        "itemImageURL": "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png",
+        "itemRemainingAmountStored": 25
+    },
+    {
+        "itemId": 2,
+        "itemName": "Item 2",
+        "itemPrice": 39.99,
+        "itemImageURL": "https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png",
+        "itemRemainingAmountStored": 34
+    }
 ]

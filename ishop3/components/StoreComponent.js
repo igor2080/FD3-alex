@@ -11,14 +11,12 @@ class StoreComponent extends React.Component {
     static propTypes = {
         storeName: PropTypes.string,
         storeItems: PropTypes.arrayOf(PropTypes.instanceOf(StoreItem)).isRequired,
-
     };
 
     state = {
         localStoreItems: this.props.storeItems,
         selectedRow: '',
         displayMode: '',
-
     };
 
     cbItemDeleted = (itemId) => {
@@ -32,8 +30,6 @@ class StoreComponent extends React.Component {
                 displayMode: '',
             }
         });
-
-
     };
 
     cbItemClicked = (itemId) => {
@@ -46,8 +42,6 @@ class StoreComponent extends React.Component {
                 displayMode: 'preview',
             }
         });
-
-
     };
 
     cbItemEdit = (itemId) => {
@@ -60,8 +54,6 @@ class StoreComponent extends React.Component {
                 displayMode: 'edit',
             }
         });
-
-
     };
 
     cbItemEditSaveChanges = (id, item) => {
@@ -115,8 +107,10 @@ class StoreComponent extends React.Component {
         );
 
         var displayItemInfo;
+
         if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
             var currentItem = this.state.localStoreItems.find(x => x.itemId === this.state.selectedRow);
+            
             switch (this.state.displayMode) {
                 case 'preview':
                     displayItemInfo = <ItemPreview storeItem={currentItem} />
