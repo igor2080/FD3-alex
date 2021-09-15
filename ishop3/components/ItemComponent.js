@@ -10,7 +10,8 @@ class ItemComponent extends React.Component {
         itemDeleted: PropTypes.func,
         itemEdit: PropTypes.func,
         itemClicked: PropTypes.func,
-        isSelected: PropTypes.bool
+        isClickingDisabled: PropTypes.bool,
+        isSelected: PropTypes.bool,
     };
 
     deleteClicked = (event) => {
@@ -36,10 +37,10 @@ class ItemComponent extends React.Component {
                 <td>{this.props.storeItem.itemImageURL}</td>
                 <td>{this.props.storeItem.itemRemainingAmountStored}</td>
                 <td>
-                    <input type='button' onClick={this.editClicked} value='Edit' />
+                    <input type='button' onClick={this.editClicked} value='Edit' disabled={this.props.isClickingDisabled} />
                 </td>
                 <td>
-                    <input type='button' onClick={this.deleteClicked} value='Delete' />
+                    <input type='button' onClick={this.deleteClicked} value='Delete' disabled={this.props.isClickingDisabled} />
                 </td>
             </tr>
         );

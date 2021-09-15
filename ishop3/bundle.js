@@ -90,7 +90,7 @@ var ItemComponent = function (_React$Component) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement('input', { type: 'button', onClick: this.editClicked, value: 'Edit' })
+                    _react2.default.createElement('input', { type: 'button', onClick: this.editClicked, value: 'Edit', disabled: this.props.isClickingDisabled })
                 ),
                 _react2.default.createElement(
                     'td',
@@ -109,6 +109,7 @@ ItemComponent.propTypes = {
     itemDeleted: _propTypes2.default.func,
     itemEdit: _propTypes2.default.func,
     itemClicked: _propTypes2.default.func,
+    isClickingDisabled: _propTypes2.default.bool,
     isSelected: _propTypes2.default.bool
 };
 exports["default"] = ItemComponent;
@@ -561,7 +562,7 @@ var StoreComponent = function (_React$Component) {
             var _this2 = this;
 
             var renderItemArray = this.state.localStoreItems.map(function (item) {
-                return _react2.default.createElement(_ItemComponent2.default, { key: item.itemId, storeItem: item, itemEdit: _this2.cbItemEdit, itemDeleted: _this2.cbItemDeleted, itemClicked: _this2.cbItemClicked, isSelected: item.itemId == _this2.state.selectedRow });
+                return _react2.default.createElement(_ItemComponent2.default, { key: item.itemId, storeItem: item, itemEdit: _this2.cbItemEdit, itemDeleted: _this2.cbItemDeleted, itemClicked: _this2.cbItemClicked, isSelected: item.itemId == _this2.state.selectedRow, isClickingDisabled: !_this2.isAllowedClicking() });
             });
 
             var displayItemInfo;

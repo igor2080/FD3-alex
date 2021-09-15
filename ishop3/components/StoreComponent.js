@@ -110,7 +110,7 @@ class StoreComponent extends React.Component {
 
     render() {
         var renderItemArray = this.state.localStoreItems.map(item =>
-            <ItemComponent key={item.itemId} storeItem={item} itemEdit={this.cbItemEdit} itemDeleted={this.cbItemDeleted} itemClicked={this.cbItemClicked} isSelected={item.itemId == this.state.selectedRow} />
+            <ItemComponent key={item.itemId} storeItem={item} itemEdit={this.cbItemEdit} itemDeleted={this.cbItemDeleted} itemClicked={this.cbItemClicked} isSelected={item.itemId == this.state.selectedRow} isClickingDisabled={!this.isAllowedClicking()} />
         );
 
         var displayItemInfo;
