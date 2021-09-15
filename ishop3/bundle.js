@@ -95,7 +95,7 @@ var ItemComponent = function (_React$Component) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement('input', { type: 'button', onClick: this.deleteClicked, value: 'Delete' })
+                    _react2.default.createElement('input', { type: 'button', onClick: this.deleteClicked, value: 'Delete', disabled: this.props.isClickingDisabled })
                 )
             );
         }
@@ -524,9 +524,10 @@ var StoreComponent = function (_React$Component) {
             var itemIndex = localItemCopy.findIndex(function (x) {
                 return x.itemId == id;
             });
-            if (itemIndex != -1) {
+
+            if (_this.state.displayMode == 'edit') {
                 localItemCopy[itemIndex] = item;
-            } else {
+            } else if (_this.state.displayMode == 'create') {
                 localItemCopy.push(item);
             }
 
@@ -585,8 +586,9 @@ var StoreComponent = function (_React$Component) {
                             cancelEdit: this.cbCancelEdit });
                         break;
                     case 'create':
+                        console.log(this.state.localStoreItems[this.state.localStoreItems.length - 1].itemId + 1);
                         displayItemInfo = _react2.default.createElement(_ItemEdit2.default, {
-                            storeItemId: this.state.localStoreItems.length + 1,
+                            storeItemId: this.state.localStoreItems[this.state.localStoreItems.length - 1].itemId + 1,
                             saveChanges: this.cbItemEditSaveChanges,
                             cancelEdit: this.cbCancelEdit
                         });

@@ -22,7 +22,7 @@ class StoreComponent extends React.Component {
     };
 
     cbItemDeleted = (itemId) => {
-        if(!this.isAllowedClicking())
+        if (!this.isAllowedClicking())
             return;
 
         this.setState((curState, props) => {
@@ -37,7 +37,7 @@ class StoreComponent extends React.Component {
     };
 
     cbItemClicked = (itemId) => {
-        if(!this.isAllowedClicking())
+        if (!this.isAllowedClicking())
             return;
 
         this.setState((curState, props) => {
@@ -51,7 +51,7 @@ class StoreComponent extends React.Component {
     };
 
     cbItemEdit = (itemId) => {
-        if(!this.isAllowedClicking())
+        if (!this.isAllowedClicking())
             return;
 
         this.setState((curState, props) => {
@@ -67,10 +67,11 @@ class StoreComponent extends React.Component {
     cbItemEditSaveChanges = (id, item) => {
         var localItemCopy = Object.assign(this.state.localStoreItems, {});
         var itemIndex = localItemCopy.findIndex(x => x.itemId == id);
-        if (itemIndex != -1) {
+
+        if (this.state.displayMode == 'edit') {
             localItemCopy[itemIndex] = item;
         }
-        else {
+        else if (this.state.displayMode == 'create') {
             localItemCopy.push(item);
         }
 
@@ -131,8 +132,9 @@ class StoreComponent extends React.Component {
                         cancelEdit={this.cbCancelEdit} />
                     break;
                 case 'create':
+                    console.log((this.state.localStoreItems[this.state.localStoreItems.length - 1].itemId) + 1);
                     displayItemInfo = <ItemEdit
-                        storeItemId={(this.state.localStoreItems.length + 1)}
+                        storeItemId={(this.state.localStoreItems[this.state.localStoreItems.length - 1].itemId) + 1}
                         saveChanges={this.cbItemEditSaveChanges}
                         cancelEdit={this.cbCancelEdit}
                     />
