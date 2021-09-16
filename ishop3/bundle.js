@@ -187,6 +187,8 @@ var ItemEdit = function (_React$Component) {
             }
 
             return false;
+        }, _this.isModelValid = function () {
+            return _this.state.isItemNameValid && _this.state.isItemPriceValid && _this.state.isItemURLValid && _this.state.isItemQuantityValid;
         }, _this.itemNameChanged = function (event) {
             _this.setState(function (curState, props) {
                 return {
@@ -216,7 +218,7 @@ var ItemEdit = function (_React$Component) {
                 };
             });
         }, _this.saveClicked = function () {
-            if (_this.state.isItemNameValid && _this.state.isItemPriceValid && _this.state.isItemURLValid && _this.state.isItemQuantityValid) {
+            if (_this.isModelValid()) {
                 _this.props.saveChanges(_this.state.localStoreItem.itemId, _this.state.localStoreItem);
             }
         }, _this.cancelClicked = function () {
@@ -303,7 +305,7 @@ var ItemEdit = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement('input', { type: 'button', onClick: this.saveClicked, value: 'Save' })
+                    _react2.default.createElement('input', { type: 'button', onClick: this.saveClicked, value: 'Save', disabled: !this.isModelValid() })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -318,7 +320,6 @@ var ItemEdit = function (_React$Component) {
 }(_react2.default.Component);
 
 ItemEdit.propTypes = {
-    //storeItem: PropTypes.instanceOf(StoreItem).isRequired,
     storeItemId: _propTypes2.default.number,
     storeItemName: _propTypes2.default.string,
     storeItemPrice: _propTypes2.default.number,
@@ -488,7 +489,6 @@ var StoreComponent = function (_React$Component) {
             localStoreItems: _this.props.storeItems,
             selectedRow: '',
             displayMode: ''
-
         }, _this.cbItemDeleted = function (itemId) {
             if (!_this.isAllowedClicking()) return;
 
@@ -567,10 +567,12 @@ var StoreComponent = function (_React$Component) {
             });
 
             var displayItemInfo;
+
             if (this.state.selectedRow !== '' || this.state.displayMode !== '') {
                 var currentItem = this.state.localStoreItems.find(function (x) {
                     return x.itemId === _this2.state.selectedRow;
                 });
+
                 switch (this.state.displayMode) {
                     case 'preview':
                         displayItemInfo = _react2.default.createElement(_ItemPreview2.default, { storeItem: currentItem });
@@ -649,7 +651,6 @@ var StoreComponent = function (_React$Component) {
 StoreComponent.propTypes = {
     storeName: _propTypes2.default.string,
     storeItems: _propTypes2.default.arrayOf(_propTypes2.default.instanceOf(_StoreItem2.default)).isRequired
-
 };
 exports["default"] = StoreComponent;
 
@@ -31534,16 +31535,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var itemsArray = __webpack_require__(/*! ./SampleItems.json */ "./SampleItems.json");
 
 var storeName = "Test Store";
-// var itemsArray = [
-//     new StoreItem(1, "Item 1", 29.99, "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c549.png", 25),
-//     new StoreItem(2, "Item 2", 39.99, "https://assets.stickpng.com/images/58adf674e612507e27bd3c46.png", 34),
-// ];
-var itemsArray = __webpack_require__(/*! ./SampleItems.json */ "./SampleItems.json");
+
 itemsArray = itemsArray.map(function (item) {
     return Object.assign(new _StoreItem2.default(), item);
 });
+
 ReactDOM.render(React.createElement(_StoreComponent2.default, {
     storeName: storeName,
     storeItems: itemsArray

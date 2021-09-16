@@ -43,6 +43,13 @@ class ItemEdit extends React.Component {
         return false;
     };
 
+    isModelValid = () => {
+        return this.state.isItemNameValid &&
+         this.state.isItemPriceValid && 
+         this.state.isItemURLValid && 
+         this.state.isItemQuantityValid;
+    }
+
     itemNameChanged = (event) => {
         this.setState((curState, props) => {
             return {
@@ -80,7 +87,7 @@ class ItemEdit extends React.Component {
     };
 
     saveClicked = () => {
-        if (this.state.isItemNameValid && this.state.isItemPriceValid && this.state.isItemURLValid && this.state.isItemQuantityValid) {
+        if (this.isModelValid()) {
             this.props.saveChanges(this.state.localStoreItem.itemId, this.state.localStoreItem);
         }
     };
@@ -116,7 +123,7 @@ class ItemEdit extends React.Component {
                     <label className="dangerText">{this.state.isItemQuantityValid ? '' : 'Please enter an amount. It must be a positive number or zero'}</label>
                 </div>
                 <div>
-                    <input type="button" onClick={this.saveClicked} value="Save" />
+                    <input type="button" onClick={this.saveClicked} value="Save" disabled={!this.isModelValid()} />
                 </div>
                 <div>
                     <input type="button" onClick={this.cancelClicked} value="Cancel" />
