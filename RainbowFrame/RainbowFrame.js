@@ -11,7 +11,7 @@ class RainbowFrame extends React.Component {
             return this.props.children;
         }
         var currentColor = colorArray.shift();
-        return <div style={{ border: '5px solid ' + currentColor, width: '' + (200 - (10 * loopCount)) + 'px', textAlign:'center' }}>{this.makeDivArray(colorArray, ++loopCount)}</div>
+        return <div style={{ border: '5px solid ' + currentColor, width: '' + (400 - (20 * loopCount)) + 'px', textAlign: 'center', margin: '5px 5px' }}>{this.makeDivArray(colorArray, ++loopCount)}</div>
     }
 
     render() {
