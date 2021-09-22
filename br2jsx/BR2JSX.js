@@ -7,11 +7,13 @@ class BR2JSX extends React.Component {
     }
 
     render() {
-        let a = this.props.text.split(/<br ?\/?>/);
+        let splitArray = this.props.text.split(/<br ?\/?>/);
+        let arrayWithBreaks = splitArray.map(x => [x, <br />]).flat();
+
         return (
             <div style={{ backgroundColor: '#2F4F4F', display: 'inline-block', width: '300px', textAlign: 'center', color: 'white', fontSize: '18px' }}>
                 {
-                    a
+                    arrayWithBreaks
                 }
             </div>
         );
