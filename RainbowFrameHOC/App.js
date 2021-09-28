@@ -7,7 +7,7 @@ import { withRainbowFrame } from './withRainbowFrame';
 
 
 let colors = ['red', 'orange', 'yellow', 'green', '#00BFFF', 'blue', 'purple'];
-let RainbowFramedComponent = withRainbowFrame(colors)(Fragment);
+let RainbowFramedComponent = withRainbowFrame(colors);//(Fragment);
 ReactDOM.render(
     <RainbowFramedComponent>
         Text
