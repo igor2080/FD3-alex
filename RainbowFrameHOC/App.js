@@ -10,10 +10,10 @@ let colors = ['red', 'orange', 'yellow', 'green', '#00BFFF', 'blue', 'purple'];
 let RainbowFramedComponent = withRainbowFrame(colors)(DoubleButton);
 ReactDOM.render(
     <Fragment>
-        <DoubleButton caption1="Button 1" caption2="Button 2">
+        <DoubleButton caption1="Button 1" caption2="Button 2" cbPressed={x=>alert(x)}>
             Text2
         </DoubleButton>
-        <RainbowFramedComponent caption1="Button 1" caption2="Button 2">
+        <RainbowFramedComponent caption1="Button 1" caption2="Button 2"  cbPressed={x=>alert(x)}>
             Text
         </RainbowFramedComponent>        
     </Fragment>
