@@ -15,26 +15,22 @@ class MobileClient extends React.PureComponent {
         displayMode: PropTypes.string
     }
 
-    state = {
-        client: this.props.client
-    };
-
     deleteClicked = () => {
-        mobileEvents.emit('deleteClick', this.state.client.id);
+        mobileEvents.emit('deleteClick', this.props.client.id);
     };
 
     editClicked = () => {
-        mobileEvents.emit('displayModeChanged', 'edit', this.state.client);
-        mobileEvents.emit('editClick', this.state.client.id);
+        mobileEvents.emit('displayModeChanged', 'edit', this.props.client);
     }
 
     render() {
         console.log("MobileClient " + this.props.client.id + " render");
+
         return (
             <tr>
                 <td>{this.props.client.name}</td>
-                <td>{this.state.client.balance}</td>
-                <td className={this.state.client.status === "active" ? "active" : "blocked"}>{this.state.client.status}</td>
+                <td>{this.props.client.balance}</td>
+                <td className={this.props.client.status === "active" ? "active" : "blocked"}>{this.props.client.status}</td>
                 <td>
                     <button onClick={this.editClicked}>Edit</button>
                 </td>

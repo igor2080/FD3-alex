@@ -35,12 +35,10 @@ class MobileCompany extends React.PureComponent {
             this.setState({ displayMode: mode });
             this.currentClient = currentClient;
         }.bind(this));
-        mobileEvents.addListener('editClick', this.saveClient);
     };
 
     componentWillUnmount() {
         mobileEvents.removeListener('deleteClick', this.deleteClient);
-        mobileEvents.removeListener('editClick', this.saveClient);
         mobileEvents.removeAllListeners('displayModeChanged');
 
     };
@@ -78,16 +76,18 @@ class MobileCompany extends React.PureComponent {
         });
     }
 
-    saveClient = (id = null) => {
+    saveClient = () => {
         if (this.state.displayMode == 'create') {
+            let newId = this.state.clients.reduce((prev, current) => (prev.id > current.id) ? prev : current).id + 1;//highest id
+
             let newClient = {
-                id: this.state.clients.length + 1,
+                id: newId,
                 name: this.clientNameRef.current.value,
                 balance: Number(this.clientBalanceRef.current.value),
                 status: ((Math.random() * 2) < 1 ? 'blocked' : 'active'),
             };
 
-            newClient.key = newClient.id;
+            newClient.key = newId;
 
             this.setState({
                 clients: [...this.state.clients, newClient],
@@ -106,7 +106,7 @@ class MobileCompany extends React.PureComponent {
                 name: this.clientNameRef.current.value,
                 balance: Number(this.clientBalanceRef.current.value),
                 status: ((Math.random() * 2) < 1 ? 'blocked' : 'active'),
-                key: this.currentClient.key
+                key: this.currentClient.id
             };
 
             this.setState({
@@ -125,6 +125,8 @@ class MobileCompany extends React.PureComponent {
 
     render() {
         console.log("MobileCompany render");
+        console.log(this.state.clients);
+
         var clients = this.state.clients.map(x =>
             <MobileClient key={x.id} client={x} />
         );
