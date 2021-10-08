@@ -126,7 +126,7 @@ class MobileCompany extends React.PureComponent {
     render() {
         console.log("MobileCompany render");
         var clients = this.state.clients.map(x =>
-            <MobileClient key={x.id} client={x} isClickingDisabled={this.state.displayMode != ''} />
+            <MobileClient key={x.id} client={x} />
         );
 
         return (

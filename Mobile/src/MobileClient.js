@@ -11,9 +11,8 @@ class MobileClient extends React.PureComponent {
             name: PropTypes.string,
             balance: PropTypes.number,
             status: PropTypes.string,
-            
         }),
-        isClickingDisabled: PropTypes.bool,
+        displayMode: PropTypes.string
     }
 
     state = {
@@ -37,10 +36,10 @@ class MobileClient extends React.PureComponent {
                 <td>{this.state.client.balance}</td>
                 <td className={this.state.client.status === "active" ? "active" : "blocked"}>{this.state.client.status}</td>
                 <td>
-                    <button disabled={this.props.isClickingDisabled} onClick={this.editClicked}>Edit</button>
+                    <button onClick={this.editClicked}>Edit</button>
                 </td>
                 <td>
-                    <button disabled={this.props.isClickingDisabled} onClick={this.deleteClicked}>Delete</button>
+                    <button onClick={this.deleteClicked}>Delete</button>
                 </td>
             </tr>
         );

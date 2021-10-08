@@ -3,7 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: "./App.js",
+    entry: "./src/App.js",
     mode: 'development',
     output: {
         path: __dirname,
@@ -11,7 +11,7 @@ module.exports = {
     },
     devServer: {
         static: {
-          directory: './',
+          directory: './src',
         },
         port: 8080,
       },
