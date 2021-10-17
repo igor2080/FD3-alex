@@ -54,15 +54,14 @@ var Scales = /** @class */ (function () {
         for (var i = 0; i < this.products.length; i++) {
             sumScale += this.products[i].getScale();
         }
-        console.log("Sum of all the products: " + sumScale);
+        return sumScale;
     };
     Scales.prototype.getNameList = function () {
-        var productNames = "";
+        var productNames = [];
         for (var i = 0; i < this.products.length; i++) {
-            productNames += this.products[i].getName() + ",";
+            productNames.push(this.products[i].getName());
         }
-        productNames = productNames.slice(0, -1); //removes last comma
-        console.log("Products on the scale: " + productNames);
+        return productNames;
     };
     return Scales;
 }());
@@ -73,6 +72,6 @@ scale.add(new Apple(7));
 scale.add(new Tomato(5));
 scale.add(new Tomato(6));
 scale.add(new Tomato(7));
-scale.getNameList();
-scale.getSumScale();
+console.log("Sum of all the products: " + scale.getSumScale());
+console.log(scale.getNameList());
 //# sourceMappingURL=app.js.map
