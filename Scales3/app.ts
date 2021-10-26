@@ -1,18 +1,12 @@
-interface IScaleable {
-    weight: number;
-    name: string;
-    getScale(): number;
-    getName(): string;
-}
 
 interface IStorageEngine {
-    addItem(item: IScaleable): void;
-    getItem(index: number): IScaleable;
+    addItem(item: Product): void;
+    getItem(index: number): Product;
     getCount(): number;
 }
 
 
-class Product implements IScaleable {
+class Product  {
     name: string;
     weight: number;
 
@@ -29,12 +23,12 @@ class Product implements IScaleable {
 }
 
 class ScalesStorageEngineArray implements IStorageEngine {
-    products: Array<IScaleable> = [];
+    products: Array<Product> = [];
 
-    addItem(item: IScaleable): void {
+    addItem(item: Product): void {
         this.products.push(item);
     }
-    getItem(index: number): IScaleable {
+    getItem(index: number): Product {
         return this.products[index];
     }
     getCount(): number {
@@ -45,12 +39,12 @@ class ScalesStorageEngineArray implements IStorageEngine {
 class ScalesStorageEngineLocalStorage implements IStorageEngine {
     itemCount: number = 0;
 
-    addItem(item: IScaleable): void {
+    addItem(item: Product): void {
         localStorage.setItem(this.itemCount.toString(), JSON.stringify(item));
         this.itemCount++;
     }
-    getItem(index: number): IScaleable {
-        var item = JSON.parse(localStorage.getItem(index.toString())) as IScaleable;
+    getItem(index: number): Product {
+        var item = JSON.parse(localStorage.getItem(index.toString())) as Product;
         return new Product(item.name,item.weight);///      
     }
     getCount(): number {
@@ -65,7 +59,7 @@ class Scales<StorageEngine extends IStorageEngine> {
         this.storage = storageEngine;
     }
 
-    add(product: IScaleable): void {
+    add(product: Product): void {
         this.storage.addItem(product);
     }
 
