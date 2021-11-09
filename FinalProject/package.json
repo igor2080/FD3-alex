@@ -1,11 +1,13 @@
 {
-  "name": "mobile",
+  "name": "finalproject",
   "version": "1.0.0",
-  "description": "Final Project",
+  "description": "",
   "main": "App.js",
   "scripts": {
-    "build": ".\\node_modules\\.bin\\webpack",
-    "livebuild": ".\\node_modules\\.bin\\webpack-dev-server --progress --colors"
+    "builddev": "cross-env NODE_ENV=development .//node_modules//.bin//webpack-dev-server --progress --colors --history-api-fallback",
+    "buildprod": "cross-env NODE_ENV=production .//node_modules//.bin//webpack --progress",
+    "browse": ".\\node_modules\\.bin\\lite-server",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -39,5 +41,11 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   }
 }

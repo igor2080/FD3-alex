@@ -2,17 +2,15 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import StorePage from './pages/StorePage';
+import StorePage from './pages/StorePage'
 
 ReactDOM.render(
-
     <BrowserRouter>
         <Routes>
-            <Route path="/:page" element={<StorePage />}>
-            </Route>
+            <Route path="/:page" component={StorePage} />
         </Routes>
     </BrowserRouter>
-    , document.getElementById('container'),
-);
+    , document.getElementById('container'));
