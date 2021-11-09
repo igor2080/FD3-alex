@@ -7,32 +7,30 @@ import { useParams, NavLink, withRouter, useHistory } from "react-router-dom";
 
 var itemsArray = require('../SampleItems.json');
 
-export default function StorePage() {
-    const params = useParams();
-    const history = useHistory();
+class StorePage extends React.PureComponent {
 
-    itemsArray = itemsArray.map(item => Object.assign(new StoreItem(), item));
+    render() {
 
-    var pageNumber = parseInt(params.page);
-    if (isNaN(pageNumber))
-        pageNumber = 1;
-    var from = (50 * pageNumber) - 49;
-    var to = (50 * pageNumber);
-    var maxPages = Math.ceil(itemsArray.length / 50);
+        itemsArray = itemsArray.map(item => Object.assign(new StoreItem(), item));
 
-    console.log("from:" + from + " to:" + to + ", max pages: " + maxPages);
+        var pageNumber = parseInt(this.props.match.params.page);
+        if (isNaN(pageNumber))
+            pageNumber = 1;
+        var from = (50 * pageNumber) - 49;
+        var to = (50 * pageNumber);
+        var maxPages = Math.ceil(itemsArray.length / 50);
 
-    itemsArray = itemsArray.filter(item => item.itemId >= from && item.itemId < to);
+        console.log("from:" + from + " to:" + to + ", max pages: " + maxPages);
 
-    var toPreviousPage=()=>{
-        history.push("/2");
+        itemsArray = itemsArray.filter(item => item.itemId >= from && item.itemId < to);
+        
+        return (
+            <Fragment>
+                <button onClick={toPreviousPage} disabled={pageNumber <= 1}>← Previous page</button>
+                <button disabled={pageNumber >= maxPages}>Next page →</button>
+                <StoreComponent storeItems={itemsArray} />
+            </Fragment>
+        );
     }
-
-    return (
-        <Fragment>
-            <button onClick={toPreviousPage} disabled={pageNumber <= 1}>← Previous page</button>
-            <button disabled={pageNumber >= maxPages}>Next page →</button>
-            <StoreComponent storeItems={itemsArray} />
-        </Fragment>
-    );
 }
+export default StorePage;
