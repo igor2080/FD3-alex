@@ -1,8 +1,6 @@
-import React, { Fragment } from 'react';
-
+import React from 'react';
 import StoreComponent from '../components/StoreComponent';
 import StoreItem from '../components/StoreItem';
-import { useParams, NavLink, withRouter, useHistory } from "react-router-dom";
 
 
 var itemsArray = require('../SampleItems.json');
@@ -25,11 +23,11 @@ class StorePage extends React.PureComponent {
         itemsArray = itemsArray.filter(item => item.itemId >= from && item.itemId < to);
         
         return (
-            <Fragment>
+            <div>
                 <button onClick={toPreviousPage} disabled={pageNumber <= 1}>← Previous page</button>
                 <button disabled={pageNumber >= maxPages}>Next page →</button>
                 <StoreComponent storeItems={itemsArray} />
-            </Fragment>
+            </div>
         );
     }
 }
