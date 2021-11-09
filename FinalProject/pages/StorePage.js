@@ -13,7 +13,7 @@ class StorePage extends React.PureComponent {
 
         itemsArray = itemsArray.map(item => Object.assign(new StoreItem(), item));
 
-        var pageNumber = parseInt(this.props.match.params.page);
+        var pageNumber =parseInt(this.props.match.params.page);
         if (isNaN(pageNumber))
             pageNumber = 1;
         var from = (50 * pageNumber) - 49;

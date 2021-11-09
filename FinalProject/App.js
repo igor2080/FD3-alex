@@ -9,8 +9,7 @@ import StorePage from './pages/StorePage';
 ReactDOM.render(
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<StorePage />}>
-                <Route path=":page" element={<StorePage />} />
+            <Route path="/:page" element={<StorePage />}>
             </Route>
         </Routes>
     </BrowserRouter>
