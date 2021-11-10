@@ -8,12 +8,10 @@ var itemsArray = require('../SampleItems.json');
 
 class StorePage extends React.PureComponent {
 
-
     state = {
         currentPageNumber: !isNaN(this.props.match.params.page) ? parseInt(this.props.match.params.page) : 1,
         itemsArray: itemsArray.map(item => Object.assign(new StoreItem(), item))
     }
-
 
     toPreviousPage = () => {
         this.setState((curState, props) => {
@@ -35,11 +33,12 @@ class StorePage extends React.PureComponent {
         console.log("from:" + from + " to:" + to + ", max pages: " + maxPages);
 
         var renderItemsArray = this.state.itemsArray.filter(item => item.itemId >= from && item.itemId < to);
+        
         console.log(renderItemsArray);
 
         return (
             <div>
-                <button onClick={this.toPreviousPage} disabled={this.state.currentPageNumber <2}>← Previous page</button>
+                 <button onClick={this.toPreviousPage} disabled={this.state.currentPageNumber <2}>← Previous page</button>
                 <button disabled={this.state.currentPageNumber >= maxPages}>Next page →</button>
                 <StoreComponent storeItems={renderItemsArray} />
             </div>
