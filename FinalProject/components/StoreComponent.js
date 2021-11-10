@@ -31,8 +31,10 @@ class StoreComponent extends React.Component {
     }
 
     render() {
+        console.log(this.state.localStoreItems);
         var storeItemArray = this.state.localStoreItems.map(item =>
             <ItemComponent key={item.itemId} storeItem={item} />);
+            
         return (
             <table>
                 <tbody>
