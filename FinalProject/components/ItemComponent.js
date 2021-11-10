@@ -19,13 +19,18 @@ class ItemComponent extends React.Component {
 
     render() {
         return (
-            <tr>
-                <td>{this.props.storeItem.itemName}</td>
-                <td>{this.props.storeItem.itemPrice}</td>
-                <td>
-                    <input type='button' onClick={this.deleteClicked} value='Delete' />
-                </td>
-            </tr>
+            <div className="flexitem">
+                <span>{this.props.storeItem.itemName}</span>
+                <span>{this.props.storeItem.itemPrice}</span>
+                <input type='button' onClick={this.deleteClicked} value='Delete' />
+            </div>
+            // <tr>
+            //     <td>{this.props.storeItem.itemName}</td>
+            //     <td>{this.props.storeItem.itemPrice}</td>
+            //     <td>
+            //         <input type='button' onClick={this.deleteClicked} value='Delete' />
+            //     </td>
+            // </tr>
         );
     };
 }

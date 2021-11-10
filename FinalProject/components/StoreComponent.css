@@ -1,0 +1,16 @@
+.flexdiv{
+    display:flex;
+    flex-wrap: wrap;
+    
+}
+
+.flexdiv .flexitem{
+    display:flex;
+    flex: 0 0 20%;
+    justify-content: space-between;
+    border: 1px solid red;
+}
+
+.flexitem span{
+    padding: 0 1%;
+}

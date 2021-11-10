@@ -5,6 +5,8 @@ import ItemComponent from './ItemComponent';
 import StoreItem from './StoreItem';
 import { storeEvents } from './events';
 
+import './StoreComponent.css';
+
 class StoreComponent extends React.Component {
 
     static propTypes = {
@@ -36,11 +38,12 @@ class StoreComponent extends React.Component {
             <ItemComponent key={item.itemId} storeItem={item} />);
             
         return (
-            <table>
-                <tbody>
-                    {storeItemArray}
-                </tbody>
-            </table>
+            <div className="flexdiv">{storeItemArray}</div>
+            // <table>
+            //     <tbody>
+            //     {storeItemArray}
+            //     </tbody>
+            // </table>
         );
     };
 }

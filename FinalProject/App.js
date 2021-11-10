@@ -6,6 +6,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import StorePage from './pages/StorePage';
 
+import './site.css';
 
 ReactDOM.render( 
   <BrowserRouter>
