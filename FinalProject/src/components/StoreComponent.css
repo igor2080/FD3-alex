@@ -1,0 +1,81 @@
+.flexdiv span {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.flexdiv .flexitem {
+    display: flex;
+    flex: 0 0 20%;
+    justify-content: space-between;
+    border: 2px solid red;
+    
+}
+
+.flexitem span {
+    padding: 0 1%;
+}
+
+.flexitem:hover{
+    animation: hovering 0.1s forwards;
+}
+
+.main-enter {
+    opacity: 0.01;
+}
+
+.main-enter.main-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.main-leave {
+    opacity: 1;
+}
+
+.main-leave.main-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boxhide {
+    display: none;
+}
+
+.loader {
+
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes hovering {
+    from {
+        border: 2px solid red;
+    }
+
+    to {
+        border: 2px solid blue;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
