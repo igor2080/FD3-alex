@@ -9,10 +9,6 @@ class ItemComponent extends React.Component {
         storeItem: PropTypes.instanceOf(StoreItem).isRequired
     };
 
-    editClicked = function () {
-        storeEvents.emit('editClicked', this.props.storeItem.itemId);
-    }
-
     deleteClicked = () => {
         storeEvents.emit('deleteClicked', this.props.storeItem.itemId);
     }
@@ -23,14 +19,7 @@ class ItemComponent extends React.Component {
                 <span>{this.props.storeItem.itemName}</span>
                 <span>{this.props.storeItem.itemPrice}</span>
                 <input type='button' onClick={this.deleteClicked} value='Delete' />
-            </div>
-            // <tr>
-            //     <td>{this.props.storeItem.itemName}</td>
-            //     <td>{this.props.storeItem.itemPrice}</td>
-            //     <td>
-            //         <input type='button' onClick={this.deleteClicked} value='Delete' />
-            //     </td>
-            // </tr>
+            </div>           
         );
     };
 }
