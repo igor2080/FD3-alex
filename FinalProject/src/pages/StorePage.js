@@ -9,6 +9,7 @@ class StorePage extends React.PureComponent {
         currentPageNumber: !isNaN(this.props.match.params.page) ? parseInt(this.props.match.params.page) : 1,
         itemsArray: [],
     }
+    fakeDelay = 1000;//simulate loading times
 
     componentDidMount = () => {
         if (localStorage.getItem("itemArray") === null) {
@@ -26,7 +27,7 @@ class StorePage extends React.PureComponent {
         this.setState({ itemsArray: data.map(item => Object.assign(new StoreItem(), item, { itemId: id++ })) });
         setTimeout(function () {//fake loading delay
             storeEvents.emit("dataReady");
-        }, 1000);
+        }, this.fakeDelay);
 
     }
 

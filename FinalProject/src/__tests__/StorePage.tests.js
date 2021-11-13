@@ -13,5 +13,5 @@ configure({ adapter: new Adapter() });
 
 test("StorePage to have an initial page count of 1", () => {
     const wrapper = mount(<StorePage />);
-    expect(wrapper.instance().state.currentPageNumber).toBe(1);
+    expect(wrapper.instance().state.currentPageNumber).toBe(1);    
 })
