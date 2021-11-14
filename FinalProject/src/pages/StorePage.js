@@ -55,7 +55,7 @@ class StorePage extends React.PureComponent {
         return (
             <div>
                 <NavLink to={{ pathname: "/" + this.state.currentPageNumber }} onClick={this.forceUpdate}>
-                    <button onClick={this.toPreviousPage} disabled={this.state.currentPageNumber < 2}>← Previous page</button>
+                    <button className="prevButton" onClick={this.toPreviousPage} disabled={this.state.currentPageNumber < 2}>← Previous page</button>
                 </NavLink>
 
                 <NavLink to={{ pathname: "/" + this.state.currentPageNumber }} onClick={this.forceUpdate}>

@@ -9,6 +9,12 @@
     "livebuild": ".\\node_modules\\.bin\\webpack-dev-server --progress --colors --history-api-fallback",
     "test": "jest"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -21,12 +27,15 @@
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
     "jest": "^21.2.1",
+    "jest-fetch-mock": "^3.0.3",
     "lite-server": "^2.3.0",
     "react-test-renderer": "^16.1.1",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

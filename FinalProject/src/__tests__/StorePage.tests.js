@@ -2,20 +2,25 @@
 
 import React from 'react';
 import renderer from "react-test-renderer";
-//import Enzyme, { shallow, render, mount } from 'enzyme';
-
-//import { configure } from "enzyme";
-//import Adapter from "enzyme-adapter-react-16";
+import { BrowserRouter } from 'react-router-dom';
 
 import StorePage from '../pages/StorePage';
-
-//configure({ adapter: new Adapter() });
+import { enableFetchMocks } from 'jest-fetch-mock'
 
 test("StorePage to have an initial page count of 1", () => {
-    const component = renderer.create(
-        <StorePage />
-      );
-    
-    // const wrapper = mount(<StorePage />);
-    // expect(wrapper.instance().state.currentPageNumber).toBe(1);    
+
+  const localStorageMock = {
+    getItem: jest.fn(() => null),
+    setItem: jest.fn(),
+    clear: jest.fn()
+  };
+  global.localStorage = localStorageMock;
+  enableFetchMocks()
+  const component = renderer.create(
+    <BrowserRouter>
+      <StorePage match={{ params: { page: 1 } }} />
+    </BrowserRouter>
+  );
+  let componentTree = component.toJSON();
+  expect(componentTree).toMatchSnapshot();
 })
